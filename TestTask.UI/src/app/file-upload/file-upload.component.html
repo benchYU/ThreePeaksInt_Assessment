@@ -1,0 +1,39 @@
+<h1>Test Task (Excel Import)</h1>
+<input type="file" (change)="onFileChange($event)">
+
+<div class="container">
+    <div class="body">
+        <div class="content">
+            <div class="left-section">
+                <form [formGroup]="importForm">                    
+                    <label>Row num from which data starts:</label>
+                    <select (change)="onRowNumChange($event)">
+                        <option *ngFor="let option of rowOptions" [value]="option">{{ option }}</option>
+                    </select>
+                    <button style="margin-left: 10px;" type="button" (click)="onValidate()">Validate File</button>
+                    <button style="margin-left: 10px;" type="button" (click)="onImport()">Import</button>
+                    <div style="padding-top: 30px;" formArrayName="uploadLabels">
+                        <div class="full-width-form-group" *ngFor="let label of uploadLabels.controls; let i = index">
+                            <label class="full-width-form-group label">{{ labelOptions[i].label }}</label>
+                            <select (change)="onOptionChange($event, i)" class="full-width-form-group select" [formControlName]="i"
+                                [ngClass]="{'highlight': highlightIndices[i]}">
+                                <option *ngFor="let option of selectOptions" [value]="option">{{ option }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="right-section">
+                Selected Options:
+                <div style="padding-top: 30px;" class="workbox">
+                    <div class="full-width-form-group selected" *ngFor="let label of uploadLabels.controls; let i = index">
+                        <div class="full-width-form-group label">
+                            <strong [ngClass]="(label.value && label.value != labelOptions[i].label) ? 'highlight' : ''">{{ label.value }}</strong>
+                            <span style="margin-left: 25px; color: maroon;">{{ labelOptions[i].cellValue }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
